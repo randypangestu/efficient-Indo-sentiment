@@ -1,5 +1,5 @@
 # Efficient Indo-sentiment with Few Shot Learning and Distillation
-Indonesia sentiment analysis using SetFit model for Few shot learning
+Indonesia sentiment analysis using [SetFit](https://github.com/huggingface/setfit)([paper](https://arxiv.org/abs/2209.11055)) model for Few shot learning, trained with [Indonesia google play review](https://huggingface.co/datasets/jakartaresearch/google-play-review) dataset.
 This project contains code and data for training and evaluating machine learning models for natural language processing (NLP) tasks, as well as code for deploying the trained models for inference.
 
 ## Dependencies
@@ -21,35 +21,34 @@ https://github.com/randypangestu/efficient-Indo-sentiment.git
 2. Install the dependencies:
 ```
 pip install -r requirements.txt
-
 ```
+
 
 ## Usage
 
-To train and evaluate the models, run:
-```
-python train_and_eval.py
+To train the model, run:
 
+```
+#default examples
+python3 train_with_distill.py
 ```
 
 To run inference on new data, use the `infer.py` script:
 ```
-python infer.py --input_data path/to/input.txt --output_file path/to/output.txt
-
+#default inference
+python sentiment_prediction.py
 ```
-
-## Data
-
-The data for this project is stored in the `data` directory. The `train` and `test` subdirectories contain the training and test sets, respectively.
-
-## Models
-
-The trained models and any necessary files for deploying the models are stored in the `models` directory.
-
 ## Results
 
 The results of the training and evaluation are stored in the `results` directory.
 
-## Documentation
+# To Do
+~~1. Create config for training~~
+2. Test on local machine
+3. Create setup.py
+4. Create Dockerfile
+5. Create huggingface endpoint
+6. Create collab & gradio inference
 
-Additional documentation and notes on the design and implementation of the project can be found in the `documentation` directory.
+# References
+- Efficient Few-Shot Learning Without Prompts [paper](https://arxiv.org/abs/2209.11055), [github](https://github.com/huggingface/setfit)

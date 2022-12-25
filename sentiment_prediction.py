@@ -15,11 +15,27 @@ def result_postprocessing(result_proba):
 
     return label_keys[str(class_predict)]
 
+def get_args():
+    # create the argument parser
+    parser = argparse.ArgumentParser()
+
+    # add the arguments
+    parser.add_argument("-w", "--weight_folder", default="", type=str, help="config file path")
+    
+    # parse the arguments
+    args = parser.parse_args()
+
+    # print the arguments
+    return args
 
 if __name__ == '__main__':
-    model = SetFitModel.from_pretrained(
-        "randypang/indo-review-sentiment-minilm3"
-    )
+    args = get_args()
+    if args.weight_folder() == '':
+        model = SetFitModel.from_pretrained("randypang/indo-review-sentiment-minilm3"
+        )
+    else:
+        model = SetFitModel.from_pretrained(args.weight_folder)
+    
     while True:
         text = input()
         result = model.predict_proba([text])

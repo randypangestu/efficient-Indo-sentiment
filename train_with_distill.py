@@ -2,7 +2,11 @@ from datasets import load_dataset
 from setfit import sample_dataset
 from setfit import SetFitModel, SetFitTrainer, DistillationSetFitTrainer
 
+import argparse
 from lib.utils import PerformanceBenchmark, plot_metrics
+import logger
+import yaml
+
 
 def train_teacher(dataset, pretrained="firqaaa/indo-sentence-bert-base"):
 
@@ -18,7 +22,9 @@ def train_teacher(dataset, pretrained="firqaaa/indo-sentence-bert-base"):
     pb = PerformanceBenchmark(model=teacher_trainer.model, dataset=test_dataset, optim_type="indo sentence bert (teacher) 4 epoch")
     return teacher_trainer, pb
 
-def train_distill(teacher_model, distill_dataset, student_model='"sentence-transformers/all-MiniLM-L6-v2"', model_name='MiniLM-L6 (distilled)' ):
+
+def train_distill(teacher_model, distill_dataset, student_model='sentence-transformers/paraphrase-MiniLM-L3-v2', model_name='distilled model' ):
+
 
     student_model = SetFitModel.from_pretrained(
         student_model
@@ -31,11 +37,12 @@ def train_distill(teacher_model, distill_dataset, student_model='"sentence-trans
     student_trainer.train()
 
     pb = PerformanceBenchmark(
-        student_trainer.student_model, test_dataset, model_name"
+
+        student_trainer.student_model, test_dataset, model_name
     )
     return student_trainer, pb
 
-def dataset_preprocess(dataset_name='jakartaresearch/google-play-review'):
+def dataset_preparation(dataset_name='jakartaresearch/google-play-review'):
     dataset = load_dataset(dataset_name)
     # Create 2 splits: one for few-shot training, the other for knowledge distillation
     train_dataset = dataset["train"].train_test_split(seed=42)
@@ -48,21 +55,49 @@ def dataset_preprocess(dataset_name='jakartaresearch/google-play-review'):
     return dataset_dict
 
 
-if __name__ == '__main__':
-    
-    dataset_dict = dataset_preprocess(dataset_name)
-    # Define the test set for evaluation
+
+def train_and_distill(dataset_dict, model_config):
+    # prepare dataset for training
     train_dataset_few_shot = dataset_dict['few_shot']
     train_dataset_distill = dataset_dict['distill']
-    test_dataset = dataset_dict['test']
-    teacher_trainer, pb_teacher = train_teacher(dataset=train_dataset_few_shot, pretrained="firqaaa/indo-sentence-bert-base")
-    perf_metrics = pb_teacher.run_benchmark()
-    mini_model_trainer, pb_teacher_mini = train_teacher(dataset=train_dataset_few_shot, pretrained="sentence-transformers/paraphrase-MiniLM-L3-v2")
-    perf_metrics.update(pb_teacher_mini.run_benchmark())
-    plot_metrics(perf_metrics, "MiniLM-L3-v2 1 epoch")
-    distill_name = 'MiniLM-L3 (distilled)'
-    student_model_trainer, pb_student = train_distill(distill_dataset=train_dataset_distill,
-                                                      student_model='sentence-transformers/paraphrase-MiniLM-L3-v2',
-                                                      model_name=distill_name)
-    plot_metrics(perf_metrics, distill_name)
+    test_dataset = dataset_dict['test'] # currently not used
+    
+    
+    logger.info('TRAIN TEACHER MODEL')
+    teacher_trainer, pb_teacher = train_teacher(dataset=train_dataset_few_shot, pretrained=model_config['train_params']['teacher_model'])
+    logger.info('Finished training teacher')
 
+    logger.info('TRAIN STUDENT MODEL WITH DISTILLATION')
+    student_model_trainer, pb_student = train_distill(distill_dataset=train_dataset_distill,
+                                                      student_model=model_config['train_params']['student_model'])
+    logger.info('Finished training student model')
+    
+    return student_model_trainer 
+
+
+def read_yaml_config(config_file_path):
+    with open(config_file_path, 'r') as config_file:
+        config = yaml.safe_load(config_file)
+    return config
+
+def get_args():
+    # create the argument parser
+    parser = argparse.ArgumentParser()
+
+    # add the arguments
+    parser.add_argument("-c", "--config", , required=True, type=str, help="config file path")
+    parser.add_argument("-s", "--save_path", required=True, type=str, help="number of items to process")
+    
+    # parse the arguments
+    args = parser.parse_args()
+
+    # print the arguments
+    return args
+
+if __name__ == '__main__':
+    args = get_args()
+    config = open_config(args.config)
+    dataset_dict = dataset_preparation(config['train_params']['dataset'])
+    student_model_trainer = train_and_distill(dataset_dict, config)
+    student_model_trainer.student_model._save_pretrained(args.save_path)
+   
