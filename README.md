@@ -1,5 +1,5 @@
-# SetFit-Indo-sentiment
-Indonesia sentiment analysis using SetFit
+# Efficient Indo-sentiment with Few Shot Learning and Distillation
+Indonesia sentiment analysis using SetFit model for Few shot learning
 This project contains code and data for training and evaluating machine learning models for natural language processing (NLP) tasks, as well as code for deploying the trained models for inference.
 
 ## Dependencies
@@ -14,7 +14,7 @@ This project contains code and data for training and evaluating machine learning
 
 1. Clone this repository:
 ```
-git clone https://github.com/myusername/ml-nlp-inference.git
+https://github.com/randypangestu/efficient-Indo-sentiment.git
 ```
 
 
