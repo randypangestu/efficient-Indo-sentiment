@@ -43,7 +43,7 @@ python sentiment_prediction.py
 The results of the training and evaluation are stored in the `results` directory.
 
 # To Do
-~~1. Create config for training~~
+1. ~~Create config for training~~
 2. Test on local machine
 3. Create setup.py
 4. Create Dockerfile
