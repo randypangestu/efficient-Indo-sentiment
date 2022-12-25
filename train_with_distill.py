@@ -1,10 +1,12 @@
 from datasets import load_dataset
 from setfit import sample_dataset
 from setfit import SetFitModel, SetFitTrainer, DistillationSetFitTrainer
+
 import argparse
 from lib.utils import PerformanceBenchmark, plot_metrics
 import logger
 import yaml
+
 
 def train_teacher(dataset, pretrained="firqaaa/indo-sentence-bert-base"):
 
@@ -20,7 +22,9 @@ def train_teacher(dataset, pretrained="firqaaa/indo-sentence-bert-base"):
     pb = PerformanceBenchmark(model=teacher_trainer.model, dataset=test_dataset, optim_type="indo sentence bert (teacher) 4 epoch")
     return teacher_trainer, pb
 
+
 def train_distill(teacher_model, distill_dataset, student_model='sentence-transformers/paraphrase-MiniLM-L3-v2', model_name='distilled model' ):
+
 
     student_model = SetFitModel.from_pretrained(
         student_model
@@ -33,6 +37,7 @@ def train_distill(teacher_model, distill_dataset, student_model='sentence-transf
     student_trainer.train()
 
     pb = PerformanceBenchmark(
+
         student_trainer.student_model, test_dataset, model_name
     )
     return student_trainer, pb
@@ -95,5 +100,4 @@ if __name__ == '__main__':
     dataset_dict = dataset_preparation(config['train_params']['dataset'])
     student_model_trainer = train_and_distill(dataset_dict, config)
     student_model_trainer.student_model._save_pretrained(args.save_path)
-    
-
+   

@@ -2,8 +2,6 @@
 Indonesia sentiment analysis using [SetFit](https://github.com/huggingface/setfit)([paper](https://arxiv.org/abs/2209.11055)) model for Few shot learning, trained with [Indonesia google play review](https://huggingface.co/datasets/jakartaresearch/google-play-review) dataset.
 This project contains code and data for training and evaluating machine learning models for natural language processing (NLP) tasks, as well as code for deploying the trained models for inference.
 
-
-
 ## Dependencies
 
 - Python 3.7 or higher
@@ -40,7 +38,6 @@ To run inference on new data, use the `infer.py` script:
 #default inference
 python sentiment_prediction.py
 ```
-
 ## Results
 
 The results of the training and evaluation are stored in the `results` directory.
