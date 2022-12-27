@@ -8,13 +8,17 @@ This project contains code for training and distlled the models for setniment cl
 Student-Teacher Distillation is a method for improving the performance of a machine learning model by training a "student" model to mimic the predictions of a "teacher" model. The student model is typically smaller and faster than the teacher model, making it more practical for use in real-world applications. </br>
 
 To implement student-teacher distillation for NLP tasks, the teacher model is first trained on a large dataset of labeled text. The student model is then trained to predict the output of the teacher model for a given input text, using the output of the teacher model as a "teacher" or "expert" label. The student model can be trained using a variety of techniques, such as supervised learning or reinforcement learning.
-
-![teacher student img]("assets/teacher-student.png")
+<p align="center">
+    <img src="./assets/teacher-student.png" alt="teacher student img" width="450" />
+</p>
 
 ## Few Shot Learning Using Setfit
 
 
 ## Model Performance
+<p align="center">
+    <img src="./assets/distill-performance.png" alt="setfit distill performance"  />
+</p>
 
 ## Model Link
 
