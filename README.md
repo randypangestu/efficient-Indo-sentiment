@@ -13,7 +13,7 @@ To implement student-teacher distillation for NLP tasks, the teacher model is fi
 </p>
 
 ## Few Shot Learning Using Setfit
-SetFit is an efficient and prompt-free framework for few-shot fine-tuning of [Sentence Transformers](https://sbert.net/). It achieves high accuracy with little labeled data - for the details you can see on the huggingface implementation of setfit [huggingface](), and also the original paper [arxiv]()
+SetFit is an efficient and prompt-free framework for few-shot fine-tuning of [Sentence Transformers](https://sbert.net/). It achieves high accuracy with little labeled data - for the details you can see on the huggingface implementation of setfit and also the original [paper](https://arxiv.org/abs/2209.11055)
 <p align="center">
     <img src="./assets/setfit.png" alt="setfit img"  />
 </p>
