@@ -1,6 +1,29 @@
 # Efficient Indo-sentiment with Few Shot Learning and Distillation
-Indonesia sentiment analysis using [SetFit](https://github.com/huggingface/setfit)([paper](https://arxiv.org/abs/2209.11055)) model for Few shot learning, trained with [Indonesia google play review](https://huggingface.co/datasets/jakartaresearch/google-play-review) dataset.
-This project contains code and data for training and evaluating machine learning models for natural language processing (NLP) tasks, as well as code for deploying the trained models for inference.
+Indonesia sentiment analysis using SetFit ([code](https://github.com/huggingface/setfit))([paper](https://arxiv.org/abs/2209.11055)) model for Few shot learning, trained with [Indonesia google play review](https://huggingface.co/datasets/jakartaresearch/google-play-review) dataset and distilled with student teacher mechanism. </br>
+This project contains code for training and distlled the models for setniment classification tasks, as well as code for inferencing the models.
+
+
+
+## Teacher Student Distillation
+Student-Teacher Distillation is a method for improving the performance of a machine learning model by training a "student" model to mimic the predictions of a "teacher" model. The student model is typically smaller and faster than the teacher model, making it more practical for use in real-world applications. </br>
+
+To implement student-teacher distillation for NLP tasks, the teacher model is first trained on a large dataset of labeled text. The student model is then trained to predict the output of the teacher model for a given input text, using the output of the teacher model as a "teacher" or "expert" label. The student model can be trained using a variety of techniques, such as supervised learning or reinforcement learning.
+<p align="center">
+    <img src="./assets/teacher-student.png" alt="teacher student img" width="450" />
+</p>
+
+## Few Shot Learning Using Setfit
+SetFit is an efficient and prompt-free framework for few-shot fine-tuning of [Sentence Transformers](https://sbert.net/). It achieves high accuracy with little labeled data - for the details you can see on the huggingface implementation of setfit and also the original [paper](https://arxiv.org/abs/2209.11055)
+<p align="center">
+    <img src="./assets/setfit.png" alt="setfit img"  />
+</p>
+
+
+## Model Performance
+by using knowledge distillation, we manage to reduce the latency signifantly on the distilled model while maintaining the same performance as the large models.
+<p align="center">
+    <img src="./assets/distill-performance.png" alt="setfit distill performance"  />
+</p>
 
 ## Dependencies
 
@@ -9,6 +32,7 @@ This project contains code and data for training and evaluating machine learning
 - Pandas 0.25 or higher
 - scikit-learn 0.22 or higher
 - PyTorch 1.7 or higher (if using the PyTorch models)
+
 
 ## Setup
 

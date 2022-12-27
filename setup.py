@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="efficient-indo-sentiment",  # Replace with your own username
+    name="efficient-indo-sentiment",
     version="0.0.1",
     author="Randy Pang",
     author_email="",
