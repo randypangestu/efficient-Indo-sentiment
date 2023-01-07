@@ -3,9 +3,9 @@ from setfit import SetFitModel
 import argparse
 
 def result_postprocessing(result_proba):
-    label_keys = {'1':'positive',
-                  '0':'negative',
-                  '2':'neutral'}
+    label_keys = {'1':'POSITIVE',
+                  '0':'NEGATIVE',
+                  '2':'NEUTRAL'}
     negative_value = result_proba[0,0]
     positive_value = result_proba[0,1]
     if abs(negative_value - positive_value) < 0.2:
@@ -30,16 +30,18 @@ def get_args():
 
 if __name__ == '__main__':
     args = get_args()
-    if args.weight_folder == '':
+    if args.weight_folder == 'play-review':
         model = SetFitModel.from_pretrained("randypang/indo-review-sentiment-minilm3"
         )
+    elif args.weight_folder == 'tweet-indo':
+        model = SetFitModel.from_pretrained("randypang/indo-tweet-sentiment-minilm3")
     else:
         model = SetFitModel.from_pretrained(args.weight_folder)
     
     while True:
-        text = input('write a review:')
+        text = input('write a review: ')
         if text == 'exit':
             break
         result = model.predict_proba([text])
         postproc_result = result_postprocessing(result)
-        print('text {} is: a {} review'.format(text, postproc_result))
+        print('text "{}" is: a {} review'.format(text, postproc_result))
